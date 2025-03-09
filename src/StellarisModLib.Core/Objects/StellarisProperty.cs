@@ -8,14 +8,17 @@ public class StellarisProperty : StellarisObject
     public string Key { get; set; }
     public object Value { get; set; } // Can be string, number, or complex expression
     public string Operator { get; set; } = "="; // Usually "=" but could be comparison operators
+    public bool ContainBrackets { get; set; } = true;
 
     public override string Serialize(int indentLevel = 0)
     {
         string indent = new('\t', indentLevel);
         string valueStr;
 
-        if (Value is string str && !str.StartsWith("\"") && !str.EndsWith("\""))
-            valueStr = $"\"{str}\"";
+        if (Value is string str && !string.IsNullOrEmpty(str) && !str.StartsWith('"') && !str.EndsWith('"'))
+        {
+            valueStr = ContainBrackets ? $"\"{str}\"" : str;
+        }
         else if (Value is StellarisObject obj)
             valueStr = obj.Serialize(indentLevel);
         else

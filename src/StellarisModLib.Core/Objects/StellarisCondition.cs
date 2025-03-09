@@ -7,8 +7,9 @@ namespace StellarisModLib.Core.Objects;
 /// </summary>
 public class StellarisCondition : StellarisObject
 {
-    public string Operator { get; set; } // AND, OR, NOT, NOR
+    public string ConditionOperator { get; set; } // AND, OR, NOT, NOR
     public List<StellarisObject> Operands { get; set; } = [];
+    public string Operator { get; set; } = "=";
         
     // Additional formatting info for conditions
     public string OperatorWhitespace { get; set; } = " ";
@@ -20,7 +21,7 @@ public class StellarisCondition : StellarisObject
         string indent = new('\t', indentLevel);
         StringBuilder sb = new();
 
-        sb.Append($"{LeadingWhitespace}{indent}{Operator}{OperatorWhitespace}");
+        sb.Append($"{LeadingWhitespace}{indent}{{{LeadingWhitespace}{ConditionOperator}{LeadingWhitespace}{Operator}{OperatorWhitespace}");
         sb.Append($"{{{OpenBraceWhitespace}");
             
         if (Operands.Count > 0)
@@ -30,7 +31,7 @@ public class StellarisCondition : StellarisObject
             {
                 sb.AppendLine(operand.Serialize(indentLevel + 1));
             }
-            sb.Append($"{indent}}}");
+            sb.Append($"{indent}}}}}");
         }
         else
         {

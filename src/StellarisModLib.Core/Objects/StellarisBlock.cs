@@ -10,6 +10,7 @@ public class StellarisBlock : StellarisObject
     public string Name { get; set; } // Optional
     public List<StellarisObject> Children { get; set; } = [];
         
+    public string Operator { get; set; } = "=";
     // Additional formatting info specifically for blocks
     public string OpenBraceWhitespace { get; set; } = " ";
     public string CloseBraceWhitespace { get; set; } = "";
@@ -24,7 +25,7 @@ public class StellarisBlock : StellarisObject
         if (!string.IsNullOrEmpty(Name))
             sb.Append($"{indent}{Name}");
             
-        sb.Append($"{OpenBraceWhitespace}{{");
+        sb.Append($"{Operator}{OpenBraceWhitespace}{{");
             
         if (Children.Count > 0)
         {

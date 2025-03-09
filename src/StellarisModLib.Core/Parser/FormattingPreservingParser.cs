@@ -172,7 +172,7 @@ public class FormattingPreservingParser
                 StellarisCondition condition = new()
                 {
                     LeadingWhitespace = leadingWhitespace.ToString(),
-                    Operator = op,
+                    ConditionOperator = op,
                     OperatorWhitespace = afterOpSpace.ToString()
                 };
                     

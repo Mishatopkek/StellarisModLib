@@ -12,11 +12,13 @@ public class StellarisModManager
 
     private readonly Dictionary<string, StellarisDocument> _documents = new();
     private readonly string _modPath;
-    private string _name;
+    private readonly string _name;
+    private readonly string _authorPrefix;
 
-    public StellarisModManager(string name)
+    public StellarisModManager(string name, string authorPrefix = "csharp")
     {
         _name = name;
+        _authorPrefix = authorPrefix;
         _modPath = Path.Combine(ModsDirectory, _name);
 
         // Create directories if they don't exist
@@ -183,7 +185,7 @@ public class StellarisModManager
     // Add localization entries to the mod
     public void AddLocalization(Dictionary<string, string> entries, string language = "english")
     {
-        string locPath = $"localisation/{language}/mod_loc.yml";
+        string locPath = $"localisation/{language}/{_authorPrefix}_l_{language}.yml";
 
         if (!_documents.TryGetValue(locPath, out StellarisDocument? document))
         {
@@ -193,7 +195,8 @@ public class StellarisModManager
             document.Children.Add(new StellarisProperty
             {
                 Key = $"l_{language}:",
-                Value = ""
+                Value = string.Empty,
+                Operator = string.Empty
             });
         }
 
@@ -201,8 +204,9 @@ public class StellarisModManager
         {
             document.Children.Add(new StellarisProperty
             {
-                Key = $" {entry.Key}:",
-                Value = $"\"{entry.Value}\""
+                Key = $" {entry.Key}:0",
+                Value = $"\"{entry.Value}\"",
+                Operator = string.Empty
             });
         }
     }
@@ -266,7 +270,7 @@ public class StellarisModManager
         {
             document.Children.Add(new StellarisProperty
             {
-                Key = "tags", Value = new StellarisBlock
+                Key = "tags", Operator = string.Empty, Value = new StellarisBlock
                 {
                     Children = tags
                         .Select(tag => new StellarisValue {Value = tag})

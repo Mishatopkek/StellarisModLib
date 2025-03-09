@@ -7,6 +7,8 @@ namespace StellarisModLib.Core.Objects;
 /// </summary>
 public class StellarisDocument : StellarisObject
 {
+    // Localisation files must be UTF-8 BOM. CW254(CW254)
+    private static UTF8Encoding utf8WithBom = new(true);
     public List<StellarisObject> Children { get; set; } = [];
     public string FileName { get; set; }
 
@@ -23,6 +25,15 @@ public class StellarisDocument : StellarisObject
     public virtual void SaveToFile(string path)
     {
         string serialiseText = Serialize();
-        File.WriteAllText(Path.Combine(path, FileName), serialiseText);
+
+        // Localization files ends with .yml
+        if (FileName.EndsWith(".yml"))
+        {
+            File.WriteAllText(Path.Combine(path, FileName), serialiseText, utf8WithBom);
+        }
+        else
+        {
+            File.WriteAllText(Path.Combine(path, FileName), serialiseText);
+        }
     }
 }

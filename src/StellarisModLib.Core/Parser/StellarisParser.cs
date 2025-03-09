@@ -70,7 +70,7 @@ public class StellarisParser
             if (_position < _tokens.Count && CurrentToken.Type == TokenType.OpenBrace)
             {
                 _position++;
-                StellarisCondition condition = new() { Operator = op };
+                StellarisCondition condition = new() { ConditionOperator = op };
                     
                 while (_position < _tokens.Count && CurrentToken.Type != TokenType.CloseBrace)
                 {
