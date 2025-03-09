@@ -101,7 +101,7 @@ public class StellarisModManager
     // Add a civic to the mod
     public void AddCivic(Civic civic)
     {
-        string civicsPath = "common/governments/civics/mod_civics.txt";
+        string civicsPath = $"common/governments/civics/{_authorPrefix}_civics.txt";
 
         if (!_documents.TryGetValue(civicsPath, out StellarisDocument? document))
         {
